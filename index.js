@@ -4,31 +4,31 @@ import session from 'express-session';
 import cookieParser from 'cookie-parser';
 
 const porta = 3000;
-const host ='0.0.0.0';
+const host = '0.0.0.0';
 const app = express();
 
 var usuarios = [];
 var mensagens = [];
 
 app.use(express.static(path.join(process.cwd(), 'páginas')));
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(session({
-  secret: "Ch4v3",
+  secret: "#Password#$",
   resave: true,
   saveUninitialized: true,
   cookie: {
-      maxAge: 1000 * 60 * 30
+    maxAge: 1000 * 60 * 30
   }
 }))
 
-app.get('/',autenticacao, (requisicao, resposta) => {
+app.get('/', autenticacao, (requisicao, resposta) => {
   const ultimoacesso = requisicao.cookies.ultimoacesso;
   const data = new Date().toLocaleString();
-  resposta.cookie("ultimoacesso", data.toLocaleString(),{
-    maxAge: 1000 * 60 * 60 * 24 * 30,
+  resposta.cookie("ultimoacesso", data.toLocaleString(), {
+    maxAge: 1000 * 60 * 30,
     httpOnly: true
-});
+  });
 
   resposta.end(`
               <!DOCTYPE html>
@@ -74,18 +74,30 @@ app.get('/',autenticacao, (requisicao, resposta) => {
                       <a class= "a" href="/cadastro.html">Cadastrar Usuário</a></br>
                       <a class= "a" href="/mensagem">Bate-Papo</a>
                       <p style="color: royalblue">Último acesso: ${ultimoacesso}</p>
+                      <form action="/logout" method="get">
+                      <button type="submit">Sair</button>
+                      </form>
                   </div>
               </body>
               </html>       
   `);
 })
+//Botão Sair
+app.get('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Erro ao fazer logoff:', err);
+    }
+    res.redirect('/login.html');
+  });
+});
 
-function autenticacao(requisicao, resposta, next){
-  if(requisicao.session.usuarioLogado){
-      next();
+function autenticacao(requisicao, resposta, next) {
+  if (requisicao.session.usuarioLogado) {
+    next();
   }
-  else{
-      resposta.redirect('/login.html');
+  else {
+    resposta.redirect('/login.html');
   }
 }
 
@@ -93,13 +105,13 @@ app.post('/login', (requisicao, resposta) => {
   const usuario = requisicao.body.username;
   const senha = requisicao.body.senha;
 
-  if(usuario &&  senha && (usuario == "andre") && (senha == "andre")){
-     requisicao.session.usuarioLogado = true;
-     resposta.redirect('/');
+  if (usuario && senha && (usuario == "andre") && (senha == "andre")) {
+    requisicao.session.usuarioLogado = true;
+    resposta.redirect('/');
   }
-  else{
-     resposta.end(
-         `<!DOCTYPE html>
+  else {
+    resposta.end(
+      `<!DOCTYPE html>
          <html lang="pt-br">
          <head>
              <meta charset="UTF-8">
@@ -107,24 +119,26 @@ app.post('/login', (requisicao, resposta) => {
              <title>Erro</title>
          </head>
          <body>
+         <div>
              <h1 style="color: red; text-align: center; font-family: Verdana">Usuário ou senha inválidos</h1>
              </br>
              <div style="text-align: center">
-                 <a style="font-family: Verdana; text-decoration: none; color: royalblue" href="/login.html">Voltar</a>
+                 <a style="font-family: Verdana; text-decoration: none; color: royalblue" href="/login.html">Retornar</a>
              </div>
+          </div>
          </body>
          </html>
      `);
   }
 })
 
-function listausuarios(requisicao, resposta){
+function listausuarios(requisicao, resposta) {
 
   let contresposta = '';
 
-  if(!(requisicao.body.name && requisicao.body.datanasc && requisicao.body.username)){
+  if (!(requisicao.body.name && requisicao.body.datanasc && requisicao.body.username)) {
 
-      contresposta = `
+    contresposta = `
                   <!DOCTYPE html>
                   <html lang="pt-br">
                   <head>
@@ -169,56 +183,56 @@ function listausuarios(requisicao, resposta){
                             <input type="text" name="name" value="${requisicao.body.name}"></br>
                             `;
 
-      if(!requisicao.body.name){
-          contresposta+=`
+    if (!requisicao.body.name) {
+      contresposta += `
                       <div>
-                          <p style="color: red">O campo nome deve ser preenchido</p>
+                          <p style="color: red">Preencha todos os dados!</p>
                       </div>`;
-      }
+    }
 
-      contresposta+=`
+    contresposta += `
                             <label for="datanasc">Data de Nascimento:</label></br>
                             <input type="date" name="datanasc" value="${requisicao.body.datanasc}"></br>
                             `;
 
-      if(!requisicao.body.datanasc){
-          contresposta+=`
+    if (!requisicao.body.datanasc) {
+      contresposta += `
                       <div>
                         <p style="color: red">O campo data deve ser preenchido</p>
                       </div>`;
-      }
+    }
 
-      contresposta+=`
+    contresposta += `
                   <label for="username">Username:</label></br>
                   <input type="text" name="username" value="${requisicao.body.username}"></br>
       `;
 
-      if(!requisicao.body.username){
-          contresposta+=`
+    if (!requisicao.body.username) {
+      contresposta += `
                       <div>
                           <p style="color: red">O campo username deve ser preenchido</p>
                       </div>`;
-      }
+    }
 
-      contresposta+=`
+    contresposta += `
                         <button class="btn" type="submit">Cadastrar</button>
                       </form>
                       </div>
                       </body>
                       </html>`;
 
-      resposta.end(contresposta);
+    resposta.end(contresposta);
   }
-  else{
+  else {
     const datanasc = new Date().toLocaleString();
-      const usuario = {
-          name: requisicao.body.name,
-          datanasc,
-          username: requisicao.body.username
-      }
-      usuarios.push(usuario);
+    const usuario = {
+      name: requisicao.body.name,
+      datanasc,
+      username: requisicao.body.username
+    }
+    usuarios.push(usuario);
 
-      contresposta =`
+    contresposta = `
                   <!DOCTYPE html>
                   <html lang="pt-br">
                   <head>
@@ -258,17 +272,16 @@ function listausuarios(requisicao, resposta){
                       </thead>
                       <tbody>                      
       `;
-      for(const usuario of usuarios)
-      {
-          contresposta += `
+    for (const usuario of usuarios) {
+      contresposta += `
               <tr>    
                   <td>${usuario.name}</td>
                   <td>${usuario.datanasc}</td>
                   <td>${usuario.username}</td>
               </tr>
           `
-      }
-      contresposta += `
+    }
+    contresposta += `
                       </tbody>
                   </table>
                   </br>
@@ -277,9 +290,9 @@ function listausuarios(requisicao, resposta){
                   </body>
                   </html>`;
 
-      resposta.send(contresposta);
+    resposta.send(contresposta);
   }
-              
+
 }
 
 app.get('/mensagem', autenticacao, (requisicao, resposta) => {
@@ -288,12 +301,12 @@ app.get('/mensagem', autenticacao, (requisicao, resposta) => {
   const data = new Date().toLocaleString();
 
   const novaMensagem = {
-      username: usuario,
-      texto: mensagemTexto,
-      data,
+    username: usuario,
+    texto: mensagemTexto,
+    data,
   };
 
-let contresposta = `<!DOCTYPE html>
+  let contresposta = `<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -373,26 +386,26 @@ let contresposta = `<!DOCTYPE html>
     <a href="/">Voltar ao menu</a>
     <h1>Bate-papo</h1>
     <div class="containerPrincipal">`;
-       for(const mensagem of mensagens){
-        contresposta += `
+  for (const mensagem of mensagens) {
+    contresposta += `
         <div class="containerMsg">
             <p>${mensagem.username}</p>
             <p class="data">${mensagem.data}</p>
             <p class="mensagem">${mensagem.texto}</p>
         </div>
         <hr class="hr">`;
-       }
-    
-       contresposta += `
+  }
+
+  contresposta += `
     </div>
     <div class="formulario">
         <form action="/mensagem" method="POST">
             <select name="username" id="">`;
-            for(const usuario of usuarios){
-                contresposta += `
+  for (const usuario of usuarios) {
+    contresposta += `
                 <option value="${usuario.username}">${usuario.username}</option>`;
-            }
-            contresposta += `
+  }
+  contresposta += `
             </select>
             <input type="text" name="mensagem">
             <button type="submit">Enviar</button>
@@ -400,7 +413,7 @@ let contresposta = `<!DOCTYPE html>
     </div>
 </body>
 </html>`;
-resposta.send(contresposta); 
+  resposta.send(contresposta);
 
 })
 
@@ -444,7 +457,7 @@ app.post('/mensagem', autenticacao, (requisicao, resposta) => {
 });
 
 
-app.post('/cadastro',autenticacao, listausuarios);
+app.post('/cadastro', autenticacao, listausuarios);
 
 app.listen(porta, host, () => {
   console.log(`Servidor rodando na url http://${host}:${porta}`);
