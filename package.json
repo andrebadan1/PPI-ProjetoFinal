@@ -1,0 +1,33 @@
+{
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3"
+  },
+  "name": "ppi-projetofinal",
+  "description": "Trabalho Final",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrebadan1/PPI-ProjetoFinal.git"
+  },
+  "keywords": [
+    "Final",
+    "Bate",
+    "Papo",
+    "JS",
+    "Vercel"
+  ],
+  "author": "Andre Badan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andrebadan1/PPI-ProjetoFinal/issues"
+  },
+  "homepage": "https://github.com/andrebadan1/PPI-ProjetoFinal#readme"
+}
