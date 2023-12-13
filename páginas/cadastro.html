@@ -13,7 +13,7 @@
 
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            background-color: rgb(45, 53, 70);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -22,7 +22,7 @@
         }
 
         .container {
-            background-color: #fff;
+            background-color: rgb(76, 89, 117);
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
@@ -30,7 +30,7 @@
         }
 
         .btn {
-            background-color: #3498db;
+            background-color: rgb(45, 53, 70);
             color: white;
             padding: 12px;
             border: none;
@@ -41,11 +41,12 @@
         }
 
         .btn:hover {
-            background-color: #50a030;
+            background-color: rgb(76, 89, 98);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
         }
 
         label {
-            color: #3498db;
+            color: white;
             font-weight: bold;
             margin-top: 15px;
             display: block;
@@ -58,11 +59,14 @@
             border: 1px solid #ccc;
             border-radius: 3px;
         }
+
+
     </style>
 </head>
 <body>
 
     <div class="container">
+
         <form action="/cadastro" method="POST">
             <label for="name">Nome:</label>
             <input type="text" name="name">

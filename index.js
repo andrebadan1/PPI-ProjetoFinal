@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 const porta = 3000;
 const host = '0.0.0.0';
 const app = express();
+process.env.TZ = 'America/Sao_Paulo';
 
 var usuarios = [];
 var mensagens = [];
@@ -215,27 +216,27 @@ function listausuarios(requisicao, resposta) {
                 margin: 0;
                 padding: 0;
             }
-    
+
             body {
                 font-family: Arial, sans-serif;
-                background-color: #f0f0f0;
+                background-color: rgb(45, 53, 70);
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 height: 100vh;
                 margin: 0;
             }
-    
+
             .container {
-                background-color: #fff;
+                background-color: rgb(76, 89, 117);
                 padding: 30px;
                 border-radius: 10px;
                 box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
                 width: 300px;
             }
-    
+
             .btn {
-                background-color: #3498db;
+                background-color: rgb(45, 53, 70);
                 color: white;
                 padding: 12px;
                 border: none;
@@ -244,18 +245,19 @@ function listausuarios(requisicao, resposta) {
                 width: 100%;
                 margin-top: 20px;
             }
-    
+
             .btn:hover {
-                background-color: #50a030;
+                background-color: rgb(76, 89, 98);
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
             }
-    
+
             label {
-                color: #3498db;
+                color: white;
                 font-weight: bold;
                 margin-top: 15px;
                 display: block;
             }
-    
+
             input {
                 width: 100%;
                 padding: 10px;
@@ -263,6 +265,14 @@ function listausuarios(requisicao, resposta) {
                 border: 1px solid #ccc;
                 border-radius: 3px;
             }
+            .alerta{
+                margin-top: 10px;
+                padding: 10px;
+                color: rgb(45, 53, 70);
+                background-color: white;
+                border-radius: 10px;
+            }
+
         </style>
     </head>
     <body>
@@ -276,7 +286,7 @@ function listausuarios(requisicao, resposta) {
     if (!requisicao.body.name) {
       contresposta += `
         <div>
-          <p style="color: red">O campo nome deve ser preenchido!</p>
+          <p class="alerta" >O campo nome deve ser preenchido!</p>
         </div>`;
     }
 
@@ -289,7 +299,7 @@ function listausuarios(requisicao, resposta) {
     if (!requisicao.body.datanasc) {
       contresposta += `
         <div>
-          <p style="color: red">O campo data deve ser preenchido</p>
+          <p class="alerta" >O campo data deve ser preenchido! </p>
         </div>`;
     }
 
@@ -301,7 +311,7 @@ function listausuarios(requisicao, resposta) {
           if(!requisicao.body.username){
               contresposta+=`
                           <div>
-                              <p style="color: red">O campo apelido deve ser preenchido</p>
+                              <p class="alerta" >O campo apelido deve ser preenchido! </p>
                           </div>`;
           }
 
@@ -314,10 +324,15 @@ function listausuarios(requisicao, resposta) {
 
     resposta.end(contresposta);
   } else {
-    const datanasc = new Date(requisicao.body.datanasc).toLocaleDateString(); 
+
+    const dataRecebida = requisicao.body.datanasc; 
+    let dataNascimento = new Date(dataRecebida);
+    dataNascimento.setDate(dataNascimento.getDate() + 1);
+    const dataFormatada = dataNascimento.toLocaleDateString('pt-BR');
+
     const usuario = {
       name: requisicao.body.name,
-      datanasc,
+      datanasc: dataFormatada,
       username: requisicao.body.username
     };
     usuarios.push(usuario);
@@ -333,6 +348,9 @@ function listausuarios(requisicao, resposta) {
           * {
             font-family: Verdana, Geneva, Tahoma, sans-serif;
           }
+          body {
+            background-color: rgb(45, 53, 70);
+          }
           table {
             border-collapse: collapse;
             width: 80%;
@@ -340,32 +358,44 @@ function listausuarios(requisicao, resposta) {
             margin-top: 35px;
           }
           th, td {
+            background-color: white;
             border: 2px solid Black;
-            padding: 15px;
+            padding: 10px;
             text-align: center;
           }
           th {
-            background-color: MediumSlateBlue;
+            background-color: rgb(76, 89, 117);
             color: white;
           }
           .botao-tabela {
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            flex-direction: row;
+            
             text-align: center;
-            margin-top: 20px;
           }
+
           .botao-tabela a {
-            background-color: MediumSlateBlue;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgb(76, 89, 117);
             color: white;
             padding: 10px;
+            margin-left: 10px;
             border-radius: 5px;
             text-decoration: none;
           }
           .botao-tabela a:hover {
-            background-color: SteelBlue;
+            background-color: rgb(76, 89, 98);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
           }
+
         </style>
       </head>
       <body>
-        <h1 style="text-align: center; font-family: Verdana; color: RebeccaPurple">Usuários Cadastrados</h1>
+        <h1 style="text-align: center; font-family: Verdana; color: white">Usuários Cadastrados</h1>
         <table class="table">
           <thead>
             <tr>
@@ -391,8 +421,8 @@ function listausuarios(requisicao, resposta) {
         </table>
         </br>
         <div class="botao-tabela">
-        <a href="/cadastro.html" role="button">Continuar Cadastrando</a><br><br><br>
-        <a href="/" role="button">Voltar</a></br></br></br>
+        <a href="/cadastro.html" role="button">Continuar Cadastrando</a>
+        <a href="/" role="button">Voltar para o Menu</a>
         </div>
       </body>
       </html>`;
@@ -419,24 +449,35 @@ app.get('/mensagem', autenticacao, (requisicao, resposta) => {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bate-Papo</title>
+    <title>Sistema de Bate-Papo</title>
     <style>
+        body{
+            background-color: rgb(45, 53, 70);
+            padding: 0px;
+            margin: 0px;
+            height: 95vh;
+        }
+
         h1{
             text-align: center;
-            color: Indigo;
+            color: white;
         }
+
         *{
             arial, sans-serif;
         }
+
        .data{
-        opacity: 50%;
+        opacity: 80%;
         font-size: small;
         margin-top: -10px;
        }
+       
        .containerPrincipal {
+        background-color: rgb(76, 89, 117);
         justify-content: column;
-        border: 2px solid MediumSlateBlue;
-        border-radius: 7px;
+        border: 5px solid rgb(76, 89, 98);
+        border-radius: 10px;
         width: 500px;
         height: 500px;
         margin: auto;
@@ -444,83 +485,117 @@ app.get('/mensagem', autenticacao, (requisicao, resposta) => {
         overflow-y: auto;
     }
        .containerMsg{
+        background-color: rgb(76, 89, 117);
         margin-top: 10px;
+        color:white;
        }
+
        .hr{
-        background-color: royalblue;
+        background-color: rgb(45, 53, 70);
         height: 1px;
         border: none;
        }
+
        .formulario{
+        margin-top: 150px;
         display: flex;
         align-items: center;
+        justify-content: space-between;
         justify-content: center;
-        margin-top: 20px;
+        width: 100%;
+        
        }
+
        select{
-        background-color: MediumPurple;
+        background-color: rgb(76, 89, 117);
         color: white;
-        border: 1px solid RebeccaPurple;
+        border: 1px solid rgb(76, 89, 98);  
         border-radius: 2px;
         weight: 250px;
-        height: 15px;
+        height: 34px;
        }
        input{
-        border: 1px solid royalblue;
+        height: 30px;
+        width: 500px;
+        border: 1px solid rgb(76, 89, 98);
         border-radius: 2px;
         margin-right: 5px;
        }
        button{
-        background-color: royalblue;
+        background-color: rgb(45, 53, 70);
         color: white;
-        border: 1px solid royalblue;
+        border: 1px solid rgb(45, 53, 70);
         border-radius: 2px;
        }
        button:hover{
         background-color: white;
-        color: royalblue;
+        color: rgb(45, 53, 70);
        }
+
        a{
+        margin: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: fit-content;
+        height: 30px;
         text-decoration: none;
-        background-color: red;
+        background-color: rgb(76, 89, 117);
         color: white;
-        padding: 5px;
+        padding: 10px;
         border-radius: 5px;
        }
        a:hover{
-        background-color: white;
-        color: red;
-        border: 1px solid red;
+        background-color: rgb(76, 89, 98);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+       }
+
+       .botao{
+      
+   
+        height: 34px;
+        text-decoration: none;
+        background-color: rgb(76, 89, 117);
+        color: white;
+      
+        border-radius: 5px;
+       }
+       .botao:hover{
+        color: white;
+        background-color: rgb(76, 89, 98);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
        }
     </style>
 </head>
 <body>
-    <a href="/">Menu Principal</a>
-    <h1>Bate-Papo</h1>
+    <a href="/"> Voltar para o Menu</a>
+    <h1>Sistema de Bate-Papo</h1>
     <div class="containerPrincipal">`;
-  for (const mensagem of mensagens) {
-    contresposta += `
-        <div class="containerMsg">
-            <p>${mensagem.username}</p>
-            <p class="data">${mensagem.data}</p>
-            <p class="mensagem">${mensagem.texto}</p>
-        </div>
-        <hr class="hr">`;
-  }
+      for (const mensagem of mensagens) {
+        contresposta += `
+            <div class="containerMsg">
+                <p>${mensagem.username}</p>
+                <p class="data">${mensagem.data}</p>
+                <p class="mensagem">${mensagem.texto}</p>
+            </div>
+            <hr class="hr">`;
+      }
 
-  contresposta += `
-    </div>
-    <div class="formulario">
-        <form action="/mensagem" method="POST">
-            <select name="username" id="">`;
-  for (const usuario of usuarios) {
-    contresposta += `
-                <option value="${usuario.username}">${usuario.username}</option>`;
-  }
-  contresposta += `
+        contresposta += `
+          </div>
+          <div class="formulario">
+              <form action="/mensagem" method="POST">
+                  <select name="username" id="">;
+                  <option value="usuario" selected disabled > Escolha o usuário</option>`;
+        for (const usuario of usuarios) {
+          contresposta += `
+                      <option value="${usuario.username}">${usuario.username}</option>`;
+        }
+
+          contresposta += `
             </select>
-            <input type="text" name="mensagem">
-            <button type="submit">Enviar</button>
+            <input type="text" name="mensagem" placeholder="Escreva sua mensagem">
+            <button class="botao" type="submit">Enviar Mensagem</button>
         </form>
       </div>
     </body>
