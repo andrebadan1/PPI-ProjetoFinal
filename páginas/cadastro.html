@@ -5,33 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastrar Usuário</title>
     <style>
-        *{
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
-        .container{
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
         }
-        .btn{
-            background-color: royalblue;
-            padding: 5px;
-            width: 100px;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            width: 300px;
+        }
+
+        .btn {
+            background-color: #3498db;
             color: white;
+            padding: 12px;
+            border: none;
             border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background-color: #50a030;
+        }
+
+        label {
+            color: #3498db;
+            font-weight: bold;
+            margin-top: 15px;
+            display: block;
+        }
+
+        input {
+            width: 100%;
             padding: 10px;
-            border-color: royalblue;
-        }
-        label{
-            color: royalblue;
-        }
-        input{
-            padding: 5px;
-            margin-top:10px;
+            margin-top: 8px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
         }
     </style>
 </head>
@@ -39,13 +64,16 @@
 
     <div class="container">
         <form action="/cadastro" method="POST">
-            <label for="name">Nome:</label><br>
-            <input type="text" name="name"></br></br>
-            <label for="datanasc">Data de Nascimento:</label></br>
-            <input type="date" name="datanasc"></br></br>
-            <label for="username">Apelido:</label></br>
-            <input type="text" name="username"></br></br>
-            <button class="btn" type="submit">Cadastrar</button>
+            <label for="name">Nome:</label>
+            <input type="text" name="name">
+            
+            <label for="datanasc">Data de Nascimento:</label>
+            <input type="date" name="datanasc">
+            
+            <label for="username">Apelido para Bate-Papo:</label>
+            <input type="text" name="username">
+            
+            <button class="btn" type="submit">Inserir Dados</button>
         </form>
     </div>
     

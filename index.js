@@ -36,48 +36,101 @@ app.get('/', autenticacao, (requisicao, resposta) => {
               <head>
                   <meta charset="UTF-8">
                   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                  <title>Inicio</title>
+                  <title>Painel do Usuário</title>
+                  
                   <style>
                       * {
-                          font-family: Verdana;
+                        font-family: Arial, Helvetica, sans-serif;
                       }
-                      .container {
-                          display: flex;
-                          justify-content: center;
-                          align-items: center;
-                          flex-direction: column;
-                          width: 350px;
-                          height: 350px;
-                          border: 1px solid black;
-                          position: absolute;
-                          top: 50%;
-                          left: 50%;
-                          transform: translate(-50%, -50%);
-                          border-radius: 5px;
-                          border-color: royalblue;
-                      }
-                      .a {
-                          text-decoration: none;
-                          background-color: royalblue;
-                          color: white;
-                          border-radius: 5px;
-                          padding: 10px;
-                      }
-                      h1{
-                          color: royalblue;
-                      }
+
+                      body{
+
+                      background-color: rgb(45, 53, 70);
+                      background-size: 100%;
+
+                     }
+
+                     .container{
+                     display: flex;
+                     justify-items: center;
+                     align-items: center;
+                     flex-direction: column;
+                     justify-content: space-evenly;
+                     width: 100%;
+                     height: 100%;
+                    
+                     }
+
+                      
+                    .container1{
+                     display: flex;
+                     justify-items: center;
+                     align-items: center;
+                     flex-direction: column;
+                     padding: 10px;
+                     border-radius: 15px;
+                     background-color: rgb(76, 89, 117);
+                     color: rgb(255, 255, 255);
+                     width: 500px;
+                     height: 450px;
+                     text-align: center;
+                     }
+
+                     .bt{
+
+                     text-decoration: none;
+                     color: rgb(255, 255, 255);
+                     font-size: 20px;
+                     font-weight: bold;
+                     padding: 5px;
+                     
+                     }
+
+                     .bt:hover{
+                        background-color: #3fa767;
+                        color: #fff;
+                     }
+
+                     .bt-logout{
+                     text-align: center;
+                     text-decoration: none;
+                     color: rgb(255, 255, 255);
+                     font-size: 20px;
+                     font-weight: bold;
+                     }
+
+                     .acesso{
+                        color: white;
+                        text-align: center;
+                        padding: 2px;
+                        position: relative;
+                        bottom: 0;
+                        top: 600px;
+                        width: 100%;
+                     }
+
+                     .footer{
+                        color: #3fa767;
+                        font-size: 18px;
+                     }
+
+
                   </style>
               </head>
               <body>
-                  <div class="container">
+                <div class="container">
+                  <div class="container1">
                       <h1>Menu</h1><br>
-                      <a class= "a" href="/cadastro.html">Cadastrar Usuário</a></br>
-                      <a class= "a" href="/mensagem">Bate-Papo</a>
-                      <p style="color: royalblue">Último acesso: ${ultimoacesso}</p>
+                      <a class= "bt" href="/cadastro.html">Cadastrar Usuário</a></br>
+                      <a class= "bt" href="/mensagem">Bate-Papo</a>
+                      <div class ="acesso">
+                      <p class = "footer" >Último acesso: ${ultimoacesso}</p>
                       <form action="/logout" method="get">
-                      <button type="submit">Sair</button>
+                      <button class = "bt-logout" type="submit">Sair</button>
                       </form>
+                      </div>
                   </div>
+                </div>
               </body>
               </html>       
   `);
@@ -112,188 +165,228 @@ app.post('/login', (requisicao, resposta) => {
   else {
     resposta.end(
       `<!DOCTYPE html>
-         <html lang="pt-br">
-         <head>
-             <meta charset="UTF-8">
-             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-             <title>Erro</title>
-         </head>
-         <body>
-         <div>
-             <h1 style="color: red; text-align: center; font-family: Verdana">Usuário ou senha inválidos</h1>
-             </br>
-             <div style="text-align: center">
-                 <a style="font-family: Verdana; text-decoration: none; color: royalblue" href="/login.html">Retornar</a>
-             </div>
-             </div>
-         </body>
-         </html>
+      <html lang="pt-br">
+      <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Erro</title>
+      </head>
+      <body>
+          <script>
+              alert("Usuário ou senha inválidos");
+              window.location.href = "/login.html";
+          </script>
+      </body>
+      </html>
      `);
   }
 })
 
 function listausuarios(requisicao, resposta) {
-
   let contresposta = '';
 
   if (!(requisicao.body.name && requisicao.body.datanasc && requisicao.body.username)) {
 
     contresposta = `
-                  <!DOCTYPE html>
-                  <html lang="pt-br">
-                  <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>Cadastro</title>
-                    <style>
-                    *{
-                      font-family: Verdana, Geneva, Tahoma, sans-serif;
-                    }
-                    .container{
-                      position: absolute;
-                      top: 50%;
-                      left: 50%;
-                      transform: translate(-50%, -50%);
-                    }
-                    .btn{
-                      background-color: royalblue;
-                      padding: 5px;
-                      width: 100px;
-                      position: absolute;
-                      left: 50%;
-                      transform: translateX(-50%);
-                      color: white;
-                      border-radius: 5px;
-                      padding: 10px;
-                      border-color: royalblue;
-                    }
-                    label{
-                      color: royalblue;
-                    }
-                    input{
-                      padding: 5px;
-                      margin-top:10px;
-                    }
-                    </style>
-                    </head>
-                    <body>
-                    <div class="container">
-                        <form action="/cadastro" method="POST">
-                            <label for="name">Nome:</label><br>
-                            <input type="text" name="name" value="${requisicao.body.name}"></br>
-                            `;
+    <!DOCTYPE html>
+    <html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Cadastrar Usuário</title>
+        <style>
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+    
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f0f0f0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                margin: 0;
+            }
+    
+            .container {
+                background-color: #fff;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+                width: 300px;
+            }
+    
+            .btn {
+                background-color: #3498db;
+                color: white;
+                padding: 12px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                width: 100%;
+                margin-top: 20px;
+            }
+    
+            .btn:hover {
+                background-color: #50a030;
+            }
+    
+            label {
+                color: #3498db;
+                font-weight: bold;
+                margin-top: 15px;
+                display: block;
+            }
+    
+            input {
+                width: 100%;
+                padding: 10px;
+                margin-top: 8px;
+                border: 1px solid #ccc;
+                border-radius: 3px;
+            }
+        </style>
+    </head>
+    <body>
+    
+        <div class="container">
+            <form action="/cadastro" method="POST">
+                <label for="name">Nome:</label>
+                <input type="text" name="name" value="${requisicao.body.name}">
+    `;
 
     if (!requisicao.body.name) {
       contresposta += `
-                      <div>
-                          <p style="color: red">Preencha todos os dados!</p>
-                      </div>`;
+        <div>
+          <p style="color: red">O campo nome deve ser preenchido!</p>
+        </div>`;
     }
 
     contresposta += `
-                            <label for="datanasc">Data de Nascimento:</label></br>
-                            <input type="date" name="datanasc" value="${requisicao.body.datanasc}"></br>
-                            `;
+            
+            <label for="datanasc">Data de Nascimento:</label>
+            <input type="date" name="datanasc" value="${requisicao.body.datanasc}">
+    `;
 
     if (!requisicao.body.datanasc) {
       contresposta += `
-                      <div>
-                        <p style="color: red">O campo data deve ser preenchido</p>
-                      </div>`;
+        <div>
+          <p style="color: red">O campo data deve ser preenchido</p>
+        </div>`;
     }
 
     contresposta += `
-                  <label for="username">Username:</label></br>
-                  <input type="text" name="username" value="${requisicao.body.username}"></br>
-      `;
+            <label for="username">Apelido para Bate-Papo:</label>
+            <input type="text" name="username" value="${requisicao.body.username}">
+            `;
 
-    if (!requisicao.body.username) {
-      contresposta += `
-                      <div>
-                          <p style="color: red">O campo username deve ser preenchido</p>
-                      </div>`;
-    }
+          if(!requisicao.body.username){
+              contresposta+=`
+                          <div>
+                              <p style="color: red">O campo apelido deve ser preenchido</p>
+                          </div>`;
+          }
 
-    contresposta += `
-                        <button class="btn" type="submit">Cadastrar</button>
-                      </form>
-                      </div>
-                      </body>
-                      </html>`;
+      contresposta+=`
+          <button class="btn" type="submit">Inserir Dados</button>
+          </form>
+        </div>
+      </body>
+      </html>`;
 
     resposta.end(contresposta);
-  }
-  else {
-    const datanasc = new Date().toLocaleString();
+  } else {
+    const datanasc = new Date(requisicao.body.datanasc).toLocaleDateString(); 
     const usuario = {
       name: requisicao.body.name,
       datanasc,
       username: requisicao.body.username
-    }
+    };
     usuarios.push(usuario);
 
     contresposta = `
-                  <!DOCTYPE html>
-                  <html lang="pt-br">
-                  <head>
-                      <meta charset="UTF-8">
-                      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                      <title>Lista de usuários</title> 
-                      <style>
-                      *{
-                        font-family: Verdana, Geneva, Tahoma, sans-serif;
-                      }
-                        table{
-                          border-collapse: collapse;
-                          width: 50%;
-                          margin: auto;
-                          margin-top: 20px;
-                        }
-                        th, td{
-                          border: 1px solid royalblue;
-                          padding: 10px;
-                          text-align: left;
-                        }
-                        th{
-                          background-color: royalblue;
-                          color: white;
-                        }
-                      </style>
-                  </head>
-                  <body>
-                  <h1 style="text-align: center; font-family: Verdana; color: royalblue">Lista de usuários</h1>
-                  <table class="table">
-                      <thead>
-                          <tr>
-                          <th scope="col">Nome</th>
-                          <th scope="col">Data de Nascimento</th>
-                          <th scope="col">Username</th>
-                          </tr>
-                      </thead>
-                      <tbody>                      
-      `;
+      <!DOCTYPE html>
+      <html lang="pt-br">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Usuários Cadastrados</title> 
+        <style>
+          * {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+          }
+          table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: auto;
+            margin-top: 35px;
+          }
+          th, td {
+            border: 2px solid Black;
+            padding: 15px;
+            text-align: center;
+          }
+          th {
+            background-color: MediumSlateBlue;
+            color: white;
+          }
+          .botao-tabela {
+            text-align: center;
+            margin-top: 20px;
+          }
+          .botao-tabela a {
+            background-color: MediumSlateBlue;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            text-decoration: none;
+          }
+          .botao-tabela a:hover {
+            background-color: SteelBlue;
+          }
+        </style>
+      </head>
+      <body>
+        <h1 style="text-align: center; font-family: Verdana; color: RebeccaPurple">Usuários Cadastrados</h1>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Nome</th>
+              <th scope="col">Data de Nascimento</th>
+              <th scope="col">Apelido para Bate-Papo</th>
+            </tr>
+          </thead>
+          <tbody>
+    `;
+
     for (const usuario of usuarios) {
       contresposta += `
-              <tr>    
-                  <td>${usuario.name}</td>
-                  <td>${usuario.datanasc}</td>
-                  <td>${usuario.username}</td>
-              </tr>
-          `
+        <tr>    
+          <td>${usuario.name}</td>
+          <td>${usuario.datanasc}</td>
+          <td>${usuario.username}</td>
+        </tr>`;
     }
+
     contresposta += `
-                      </tbody>
-                  </table>
-                  </br>
-                  <a style="position: absolute; left: 50%; transform: translateX(-50%); text-align: center; font-family: Verdana; color: white; text-decoration: none; background-color: royalblue; border-radius: 5px; padding: 10px; border-color: royalblue;" href="/" role="button">Voltar ao menu</a></br></br></br>
-                  <a style="position: absolute; left: 50%; transform: translateX(-50%); text-align: center; font-family: Verdana; color: white; text-decoration: none; background-color: royalblue; border-radius: 5px; padding: 10px; border-color: royalblue;"  href="/cadastro.html" role="button">Cadastrar</a>
-                  </body>
-                  </html>`;
+        </tbody>
+        </table>
+        </br>
+        <div class="botao-tabela">
+        <a href="/cadastro.html" role="button">Continuar Cadastrando</a><br><br><br>
+        <a href="/" role="button">Voltar</a></br></br></br>
+        </div>
+      </body>
+      </html>`;
 
     resposta.send(contresposta);
   }
-
 }
+
+
 
 app.get('/mensagem', autenticacao, (requisicao, resposta) => {
   const usuario = requisicao.body.username;
@@ -311,28 +404,30 @@ app.get('/mensagem', autenticacao, (requisicao, resposta) => {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bate-papo</title>
+    <title>Bate-Papo</title>
     <style>
         h1{
             text-align: center;
             color: royalblue;
         }
         *{
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            arial, sans-serif;
         }
        .data{
         opacity: 50%;
         font-size: small;
         margin-top: -10px;
        }
-       .containerPrincipal{
+       .containerPrincipal {
         justify-content: column;
-        border: 2px solid royalblue;
-        border-radius: 5px;
-        width: 80%;
+        border: 2px solid MediumSlateBlue;
+        border-radius: 7px;
+        width: 500px;
+        height: 500px;
         margin: auto;
-        padding: 10px;
-       }
+        padding: 15px;
+        overflow-y: auto; /* Adiciona uma barra de rolagem vertical */
+    }
        .containerMsg{
         margin-top: 10px;
        }
@@ -348,10 +443,12 @@ app.get('/mensagem', autenticacao, (requisicao, resposta) => {
         margin-top: 20px;
        }
        select{
-        background-color: royalblue;
+        background-color: MediumPurple;
         color: white;
-        border: 1px solid royalblue;
+        border: 1px solid RebeccaPurple;
         border-radius: 2px;
+        weight: 250px;
+        height: 15px;
        }
        input{
         border: 1px solid royalblue;
@@ -383,8 +480,8 @@ app.get('/mensagem', autenticacao, (requisicao, resposta) => {
     </style>
 </head>
 <body>
-    <a href="/">Voltar ao menu</a>
-    <h1>Bate-papo</h1>
+    <a href="/">Menu Principal</a>
+    <h1>Bate-Papo</h1>
     <div class="containerPrincipal">`;
   for (const mensagem of mensagens) {
     contresposta += `
@@ -410,9 +507,10 @@ app.get('/mensagem', autenticacao, (requisicao, resposta) => {
             <input type="text" name="mensagem">
             <button type="submit">Enviar</button>
         </form>
-    </div>
-</body>
+      </div>
+    </body>
 </html>`;
+
   resposta.send(contresposta);
 
 })
@@ -438,21 +536,20 @@ app.post('/mensagem', autenticacao, (requisicao, resposta) => {
     resposta.redirect
   }
   resposta.end(`
-    <!DOCTYPE html>
-    <html lang="pt-br">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Erro</title>
-    </head>
-    <body>
-        <h1 style="color: red; text-align: center; font-family: Verdana">Mensagem inválida</h1>
-        </br>
-        <div style="text-align: center">
-            <a style="font-family: Verdana; text-decoration: none; color: royalblue" href="/mensagem">Voltar</a>
-        </div>
-    </body>
-    </html>
+  <!DOCTYPE html>
+  <html lang="pt-br">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Erro</title>
+  </head>
+  <body>
+      <script>
+          alert('Por favor, insira uma mensagem, e um nome de usuário!');
+          window.location.href = '/mensagem';
+      </script>
+  </body>
+  </html>
   `);
 });
 
