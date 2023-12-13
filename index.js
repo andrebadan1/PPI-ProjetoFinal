@@ -408,7 +408,7 @@ app.get('/mensagem', autenticacao, (requisicao, resposta) => {
     <style>
         h1{
             text-align: center;
-            color: royalblue;
+            color: Indigo;
         }
         *{
             arial, sans-serif;
@@ -426,7 +426,7 @@ app.get('/mensagem', autenticacao, (requisicao, resposta) => {
         height: 500px;
         margin: auto;
         padding: 15px;
-        overflow-y: auto; /* Adiciona uma barra de rolagem vertical */
+        overflow-y: auto;
     }
        .containerMsg{
         margin-top: 10px;
