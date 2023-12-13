@@ -53,11 +53,11 @@ app.get('/', autenticacao, (requisicao, resposta) => {
                      .container{
                      display: flex;
                      justify-items: center;
+                     justify-content: center;
                      align-items: center;
                      flex-direction: column;
-                     justify-content: space-evenly;
                      width: 100%;
-                     height: 100%;
+                     height: 90vh;
                     
                      }
 
@@ -82,35 +82,46 @@ app.get('/', autenticacao, (requisicao, resposta) => {
                      color: rgb(255, 255, 255);
                      font-size: 20px;
                      font-weight: bold;
-                     padding: 5px;
-                     
+                     padding: 15px;
+                     border-radius: 15px;
+                  
+                    
                      }
 
                      .bt:hover{
-                        background-color: #3fa767;
+                        background-color: rgb(45, 53, 70);
                         color: #fff;
                      }
 
                      .bt-logout{
+                      padding: 5px;
                      text-align: center;
                      text-decoration: none;
+                     background-color: rgb(76, 89, 117);
                      color: rgb(255, 255, 255);
                      font-size: 20px;
                      font-weight: bold;
                      }
 
+                     .bt-logout:hover{
+                     
+                      background-color: rgb(45, 53, 70);
+                  
+                      }
+
                      .acesso{
+                        display: flex;
+                        justify-items: end;
+                        justify-content: end;
+                        align-items: end;
+                        flex-direction: row;
                         color: white;
-                        text-align: center;
-                        padding: 2px;
-                        position: relative;
-                        bottom: 0;
-                        top: 600px;
-                        width: 100%;
+                        padding: 10px;
+                        
                      }
 
                      .footer{
-                        color: #3fa767;
+                        color: white;
                         font-size: 18px;
                      }
 
@@ -118,17 +129,21 @@ app.get('/', autenticacao, (requisicao, resposta) => {
                   </style>
               </head>
               <body>
+                <div class ="acesso">
+                    
+                  <form action="/logout" method="get">
+                  <button class="bt-logout" type="submit">Logout</button>
+                  </form>
+
+                </div>
+
                 <div class="container">
+                <p class = "footer" >Último acesso: ${ultimoacesso}</p>
                   <div class="container1">
-                      <h1>Menu</h1><br>
-                      <a class= "bt" href="/cadastro.html">Cadastrar Usuário</a></br>
-                      <a class= "bt" href="/mensagem">Bate-Papo</a>
-                      <div class ="acesso">
-                      <p class = "footer" >Último acesso: ${ultimoacesso}</p>
-                      <form action="/logout" method="get">
-                      <button class = "bt-logout" type="submit">Sair</button>
-                      </form>
-                      </div>
+                      <h1>MENU</h1><br>
+                      <a class= "bt" href="/cadastro.html">Cadastrar Usuários</a></br>
+                      <a class= "bt" href="/mensagem">Entrar no Bate-Papo</a>
+                      
                   </div>
                 </div>
               </body>
@@ -158,7 +173,7 @@ app.post('/login', (requisicao, resposta) => {
   const usuario = requisicao.body.username;
   const senha = requisicao.body.senha;
 
-  if (usuario && senha && (usuario == "andre") && (senha == "andre")) {
+  if (usuario && senha && (usuario == "1") && (senha == "1")) {
     requisicao.session.usuarioLogado = true;
     resposta.redirect('/');
   }
@@ -193,7 +208,7 @@ function listausuarios(requisicao, resposta) {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Cadastrar Usuário</title>
+        <title>Cadastrar Usuários</title>
         <style>
             * {
                 box-sizing: border-box;

@@ -21,7 +21,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            padding: 10px;
+            padding: 50px;
             border-radius: 15px;
             background-color: rgb(76, 89, 117);
             color: rgb(255, 255, 255);
@@ -44,7 +44,7 @@
            
        } 
        .botao:hover {
-            background-color: #3fa767;
+            background-color: rgb(76, 89, 117);
             color: #fff;
         }
 
@@ -68,9 +68,10 @@
 <body>
     <div class="container">
         <form action="/login" method="POST">
-            <label for="username"></label><br>
+            
+            <h2>Sistema de Login</h2>
             <input placeholder="Nome de Usuário" type="text" name="username"></br></br>
-            <label for="senha"></label></br>
+          
             <input placeholder ="Senha" type="password" name="senha"></br></br>
             <button class="botao" type="submit">Login</button>
         </form>
