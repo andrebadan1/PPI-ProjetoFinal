@@ -485,15 +485,20 @@ app.get('/mensagem', autenticacao, (requisicao, resposta) => {
         overflow-y: auto;
     }
        .containerMsg{
-        background-color: rgb(76, 89, 117);
-        margin-top: 10px;
+        background-color: rgba(255, 255, 255, 0.2);
+        margin-top: 5px;
         color:white;
+        border: 5px solid rgb(76, 89, 98);
+        border-shadow: 5px 5px 15px black;
+        border-radius: 5px;
+        padding-left: 10px;
+        
        }
 
        .hr{
         background-color: rgb(45, 53, 70);
-        height: 1px;
-        border: none;
+        height: 5px;
+        border: ;
        }
 
        .formulario{
@@ -534,6 +539,7 @@ app.get('/mensagem', autenticacao, (requisicao, resposta) => {
 
        a{
         margin: 10px;
+        margin-left: 90%;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -565,6 +571,7 @@ app.get('/mensagem', autenticacao, (requisicao, resposta) => {
         background-color: rgb(76, 89, 98);
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
        }
+
     </style>
 </head>
 <body>
@@ -574,11 +581,12 @@ app.get('/mensagem', autenticacao, (requisicao, resposta) => {
       for (const mensagem of mensagens) {
         contresposta += `
             <div class="containerMsg">
-                <p>${mensagem.username}</p>
+                <br>
                 <p class="data">${mensagem.data}</p>
+                <p>${mensagem.username} diz:</p>
                 <p class="mensagem">${mensagem.texto}</p>
             </div>
-            <hr class="hr">`;
+            `;
       }
 
         contresposta += `
