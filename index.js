@@ -174,7 +174,7 @@ app.post('/login', (requisicao, resposta) => {
   const usuario = requisicao.body.username;
   const senha = requisicao.body.senha;
 
-  if (usuario && senha && (usuario == "1") && (senha == "1")) {
+  if (usuario && senha && (usuario == "andre") && (senha == "andre13")) {
     requisicao.session.usuarioLogado = true;
     resposta.redirect('/');
   }
